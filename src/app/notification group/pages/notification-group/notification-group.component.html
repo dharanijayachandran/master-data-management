@@ -1,0 +1,62 @@
+<!-- begin page-header -->
+<h1 i18n="@@ManageNotificationGroup" class="page-header classname">Manage Notification Group</h1>
+<div class="header_Underline"></div>
+<!-- end page-header -->
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-6 -->
+    <div class="col-lg-12 ">
+        <!-- begin nav-tabs -->
+        <ngb-tabset type="pills" class="hide_content" (tabChange)="beforeChange($event)">
+            <ngb-tab id="mngGroup">
+                <ng-template ngbTabTitle>
+                    <span i18n="Tab|Group@@group" class="d-sm-none" (click)="onChange()">Group</span>
+                    <span i18n="Tab|Group@@group" class="d-sm-block d-none" (click)="onChange()">Group</span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div id="GroupView">
+                        <!-- Notification group list -->
+                        <div *ngIf="displayPage == 'notification-group'" class="rowBox p-10 custom-rounded-bottom rowBoxFirstLevelHeight">
+                            <app-notification-group-list 
+                                (navigateTemplate)="gettingDisplayPage($event)" (tabName)="tabNameMessage()">
+                            </app-notification-group-list>
+                        </div>
+
+                        <!-- Notification group form -->
+                        <div *ngIf="displayPage == 'notification-group-form'">
+                            <app-notification-group-form 
+                            (navigateTemplate)="gettingDisplayPage($event)"></app-notification-group-form>
+                        </div>
+                        
+
+                        <!-- Notification group Preview -->
+                        <app-notification-group-preview *ngIf="displayPage == 'notification-group-Preview'"
+                            (navigateTemplate)="gettingDisplayPage($event)"></app-notification-group-preview>
+
+                        <!-- Notification group List view -->
+                        <app-notification-group-view *ngIf="displayPage == 'notification-group-View'"
+                            (navigateTemplate)="gettingDisplayPage($event)"></app-notification-group-view>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="mngAnonymousContact">
+                <ng-template ngbTabTitle>
+                    <span i18n="Tab|Anonymous Contact@@anonymousContact" class="d-sm-none">Anonymous Contact</span>
+                    <span i18n="Tab|Anonymous Contact@@anonymousContact" class="d-sm-block d-none">
+                        Anonymous Contact
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div id="notificationMediaList">
+                        <app-notification-group-media *ngIf="displayPage == 'notification-group-media'"
+                            (navigateTemplate)="gettingDisplayPage($event)"></app-notification-group-media>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        <!-- end nav-tabs -->
+    </div>
+    <!-- end col-6 -->
+
+</div>
+<!-- end row -->

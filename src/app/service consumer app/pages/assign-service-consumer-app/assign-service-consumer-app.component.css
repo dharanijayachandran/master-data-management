@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th {
+  word-break: break-all!important;
+}
+
+/* .table-responsive {
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden!important;
+} */
+
+.margin_top_25px {
+  margin-top: 25px;
+}
+
+#serviceConsumerView {
+  margin-bottom: 20px;
+}
+
+.table-responsive{
+  overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+  .margin_top_25px {
+    margin-top: 0px;
+  }
+}

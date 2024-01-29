@@ -1,0 +1,45 @@
+<script>
+    $(document).ready(function () {
+      $("#myTab li:eq(1) a").tab('show');
+    })
+  </script>
+<!-- begin page-header -->
+<h1 i18n="Service API Configuration header|Service API Configuration@@serviceAPIConfiguration" class="page-header">Service API Configuration</h1>
+<div class="header_Underline"></div>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+  <!-- begin col-6 -->
+  <div class="col-lg-12">
+    <!-- begin nav-tabs -->
+    <ngb-tabset type="pills" (tabChange)="beforeChange($event)">
+      <ngb-tab id="mngModule">
+        <ng-template ngbTabTitle>
+          <span i18n="Tab|Module@@module" class="d-sm-none">Module</span>
+          <span i18n="Tab|Module@@module" class="d-sm-block d-none">Module</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div id="ModuleView" class="rowBox p-10 custom-rounded-bottom rowBoxFirstLevelHeight">
+            <app-master-module (messageEvent)="receiveMessage($event)" (tabName)="tabNameMessage()"></app-master-module>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="mngService">
+        <ng-template ngbTabTitle>
+          <span i18n="Tab|Service@@service" class="d-sm-none">Service</span>
+          <span i18n="Tab|Service@@service" class="d-sm-block d-none">Service</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div id="serviceList" class="rowBox p-10 custom-rounded-bottom rowBoxFirstLevelHeight">
+            <app-master-service [ModuleValueChild]="gettingModuleDetail"></app-master-service>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+    <!-- end nav-tabs -->
+  </div>
+  <!-- end col-6 -->
+
+</div>
+<!-- end row -->

@@ -1,0 +1,308 @@
+<!-- Menu form starts here -->
+<div class="row">
+  <div class="col-md-12">
+    <h1 i18n="Menu header|Menu header@@menuHeader" class="page-header" *ngIf="menuFormView">
+      {{addEditText}} Menu
+    </h1>
+    <h1 i18n="Menu Preview header|Menu Preview@@menuPreview" class="page-header" *ngIf="menuReadModeView">
+      {{addEditText}} Menu - Preview
+    </h1>
+  </div>
+</div>
+<div class="row margin_0px rowBox margin_top_5px">
+  <div class="col-md-12 padding_0px">
+    <div class="padding_Form">
+      <form [formGroup]="menuForm" novalidate (ngSubmit)="previewMenu()" *ngIf="menuFormView">
+        <div class="form-group form-group-custom1">
+          <div class="formBodyCustom1" id="menuDetail">
+            <legend i18n="Menu Detail header|Menu Detail@@menuDetail" class="m-b-15">Menu Detail</legend>
+            <input type="hidden" id="hiddSelectedId" formControllerName="parentMenuId" />
+            <div *ngIf='!parentMenu' class="m-form__group row" id="parentDiv">
+              <div class="col-md-6 col-lg-6" [ngClass]="{'has-error': ((menuForm.get('parentMenuName').touched ||
+                      menuForm.get('parentMenuName').dirty) &&
+                      menuForm.get('parentMenuName').errors)}">
+                <label i18n="Parent Menu|Parent Menu@@parentMenu">Parent Menu </label>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" id="parentMenuName" [readonly]="!editable" formControlName="parentMenuName"
+                      class="form-control m-input">
+                    <span class="help-block" *ngIf="((menuForm.get('parentMenuName').touched ||
+                            menuForm.get('parentMenuName').dirty) &&
+                            menuForm.get('parentMenuName').errors)">
+                      <span i18n="Message|Please enter Parent Menu Name@@parentMenuName.message"
+                        *ngIf="menuForm.get('parentMenuName').errors.required">
+                        Please enter Parent Menu Name
+                      </span>
+                      <span i18n="Message|Please enter only Characters@@parentMenuName.message1"
+                        *ngIf="menuForm.get('naparentMenuNameme').errors.pattern">
+                        Please enter only Characters
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6"></div>
+            </div>
+
+            <!-- application dropdown-->
+            <div class="m-form__group row">
+              <div class="col-md-6 col-lg-6">
+                <label i18n="Application|Application@@application" class="">Application<span
+                    class="text-danger">*</span></label>
+                <div class="form-group">
+                  <div
+                    [ngClass]="{'has-error': menuForm.get('applicationId').invalid && (menuForm.get('applicationId').touched)}">
+                    <ejs-dropdownlist id='ddlelement' #ddlelement class="form-control p-0" [dataSource]='applications'
+                      formControlName="applicationId" #application [placeholder]='applicationWaterMark'
+                      [popupHeight]='height' [sortOrder]="sortDropDown" [fields]='applicationfield'
+                      placeholder='Select Application Name' (filtering)='onFilterings($event)'
+                      (change)='applicationOnChange($event)' [filterBarPlaceholder]="filterPlaceholder"
+                      [allowFiltering]='true' [locale]='locale'></ejs-dropdownlist>
+                  </div>
+                  <span class="help-block"
+                    *ngIf="menuForm.get('applicationId').invalid && (menuForm.get('applicationId').touched)">
+                    <span i18n="Message|Please select Application@@application.message"
+                      *ngIf="menuForm.get('applicationId').errors.required" class="text-danger">
+                      Please select application
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-form__group row">
+              <div class="col-md-6 col-lg-6">
+                <label i18n="Name|Name@@name" class="">Name<span class="text-danger">*</span></label>
+                <div class="form-group">
+                  <div [ngClass]="{'has-error': ((menuForm.get('name').touched ||
+                  menuForm.get('name').dirty) &&
+                  menuForm.get('name').errors)}">
+                    <input (keyup)="onKey($event)" i18n-placeholder="Name placeholder|Enter Name@@name.placeholder"
+                      type="text" id="name" formControlName="name" class="form-control m-input"
+                      placeholder="Enter Name">
+                    <span class="help-block" *ngIf="((menuForm.get('name').touched ||
+                menuForm.get('name').dirty) &&
+                menuForm.get('name').errors)">
+                      <span i18n="Message|Please enter Name@@name.message"
+                        *ngIf="(menuForm.get('name').errors.required || menuForm.get('name').errors.whitespace)"
+                        class="text-danger">
+                        Please enter Name
+                      </span>
+                      <span i18n="Message|Please enter valid Characters@@name.message1"
+                        *ngIf="menuForm.get('name').errors.pattern" class="text-danger">
+                        Please enter valid Characters
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <label i18n="Order|Order@@order*">Order<span class="text-danger">*</span></label>
+                <div class="form-group">
+                  <div [ngClass]="{'has-error': ((menuForm.get('menuItemOrder').touched ||
+                    menuForm.get('menuItemOrder').dirty) &&
+                    menuForm.get('menuItemOrder').errors)}">
+                    <select id="menuItemOrder" formControlName="menuItemOrder" class="form-control"
+                      (change)="orderOnChange($event)">
+                      <option [ngValue]="null" i18n="Option|Select@@select">--Select--</option>
+                      <option (click)='onClick()' *ngFor='let order of menuItemOrderArray' 
+                        [style.background-color]="order.isDisabled ? '#e9e9e9' : 'white'" 
+                        [disabled]='order.isDisabled'
+                        [value]="order.number">{{order.number}}</option>
+                    </select>
+                    <span class="help-block" *ngIf="((menuForm.get('menuItemOrder').touched ||
+                                menuForm.get('menuItemOrder').dirty) &&
+                                menuForm.get('menuItemOrder').errors)">
+                      <span i18n="Message|Please select Order@@selectOredr.message"
+                        *ngIf="menuForm.get('menuItemOrder').errors.required" class="text-danger">
+                        Please select Order
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <label i18n="Description|Description@@description">Description</label>
+                <div class="form-group">
+                  <textarea type="text" id="description" formControlName="description"
+                    class="form-control m-input textAreaHeight"
+                    i18n-placeholder="Description placeholder|Enter Description@@description.placeholder"
+                    placeholder="Enter Description"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-form__group row">
+              <div class="col-md-6 col-lg-6">
+                <label i18n="Icon|Icon@@icon*">Icon<span class="text-danger">*</span> </label>
+                <div class="form-group">
+                  <div [ngClass]="{'has-error': menuForm.get('iconId').invalid && (menuForm.get('iconId').touched)}">
+                    <div>
+                      <ejs-dropdownlist id='ddlelement' #ddlelement class="form-control p-0" [value]='iconId'
+                        name="iconId" formControlName="iconId" #icon [dataSource]='icons' [placeholder]='iconWaterMark'
+                        [fields]='iconFields' [popupHeight]='height' [sortOrder]="sort"
+                        (filtering)='onFiltering($event)' [filterBarPlaceholder]="filterPlaceholder"
+                        [allowFiltering]='true' (change)='iconOnChange($event)' [locale]='locale'></ejs-dropdownlist>
+                      <!--    <select id="iconId" formControlName="iconId" class="form-control m-input"
+                      (change)="iconOnChange($event)">
+                      <option [ngValue]="null" i18n="Option|Select@@select">--Select--</option>
+                      <option *ngFor="let icon of icon" [value]="icon.id"> {{icon.displayName}} </option>
+                    </select> -->
+                    </div>
+                    <span class="help-block" *ngIf="menuForm.get('iconId').invalid && (menuForm.get('iconId').touched)">
+                      <span i18n="Message|Please select Icon@@icon.message"
+                        *ngIf="menuForm.get('iconId').errors.required" class="text-danger">
+                        Please select Icon
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <mat-checkbox i18n="@@PageURL" formControlName="pageUrlCheck" [disabled]="pageUrlCheckDisabled"
+                  [checked]="pageUrlCheck" (change)="displayPageUrl($event)" i18n-matTooltip="@@Clicktoenable/Disable"
+                  matTooltip="{{PageUrlCheckToolTip}}">Page URL</mat-checkbox>
+                <div class="form-group">
+                  <div [ngClass]="{'has-error': ((menuForm.get('pageUrl').touched ||
+                                  menuForm.get('pageUrl').dirty) &&
+                                  menuForm.get('pageUrl').errors)}">
+                    <input [readonly]='isPageUrl' type="text" id="pageUrl" formControlName="pageUrl"
+                      class="form-control m-input" i18n-placeholder="@@PageURL.placeholder"
+                      placeholder="Enter Page URL (Ex: menu-master)" (keyup)="validateInputValue($event)">
+                    <span class="help-block" *ngIf="((menuForm.get('pageUrl').touched ||
+                    menuForm.get('pageUrl').dirty) &&
+                    menuForm.get('pageUrl').errors)">
+                      <span i18n="Message|Please enter Page URL@@pageURL.message"
+                        *ngIf="menuForm.get('pageUrl').errors.required" class="text-danger">
+                        Please enter Page URL
+                      </span>
+                      <span i18n="Message|Please enter only Characters@@pageURL.message1"
+                        *ngIf="menuForm.get('pageUrl').errors.pattern" class="text-danger">
+                        Please enter only Characters
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-radio-group formControlName="status">
+              <mat-radio-button value="Active" i18n="Radio button|Active@@active" style="margin-right: 20px;"
+                id="menuStatusA">Active
+              </mat-radio-button>
+              <mat-radio-button id="menuStatusI" value="In-Active"
+                i18n="Radio button|InActive@@inActive">In-Active</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="path finalLine"></div>
+        <div class="row" style="    text-align: right;padding: 23px 0;">
+          <div class="col-md-12">
+            <a (click)="cancelMenuForm()">
+              <button type="button" id="cancelMenu" class="btn btn-default text-center cancelActionButton"
+                i18n="Cancel button|Cancel@@cancel"> Cancel
+              </button>
+            </a>
+            &nbsp;
+            <button type="button" id="resetMenuForm" class="btn btn-secondary text-center resetActionButton"
+              [disabled]="!menuForm.dirty && menuForm.pristine || !menuForm.dirty && !menuForm.pristine"
+              (click)="resetMenuForm($event)" i18n="Reset button|Reset@@reset"> Reset </button>
+            &nbsp;
+            <span i18n-matTooltip="Tooltip validation|Fill the mandatory fields@@fillTheMandatoryFields"
+              matTooltip="Fill the mandatory fields" [matTooltipDisabled]="menuForm.valid">
+              <button i18n="Review&Save button|Review&Save@@review&Save"
+                class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                [disabled]="!menuForm.valid">
+                Review & Save</button>
+            </span>
+          </div>
+        </div>
+      </form>
+      <!-- Preview and save starts here -->
+      <div *ngIf="menuReadModeView" class="formReadMode">
+        <div class="form-group-custom1">
+          <legend i18n="Menu Detail header|Menu Detail@@menuDetail" class="m-b-15">Menu Detail</legend>
+          <div class="form-row">
+            <a (click)="backButton('menuDetail')" class="edit_section">
+              <img src="/assets/img/action/edit.png" alt="edit Menu detail"
+                i18n-matTooltip="Image tooltip|Click to edit Menu Detail@@clickToEditMenuDetail"
+                matTooltip="Click to edit Menu Detail">
+            </a>
+            <div *ngIf='!parentMenu' class="row" style="width: 100%;">
+              <div class="form-group col-sm-6 col-md-4">
+                <label i18n="Parent Menu|Parent Menu@@parentMenu" class="">Parent Menu</label>
+                <p>
+                  {{menu.parentMenuName | hyphen}}
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Application|Application@@application" class="">Application</label>
+              <p>
+                {{applicationName | hyphen}}
+              </p>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Name|Name@@name" class="">Name</label>
+              <p>
+                {{menu.name | hyphen}}
+              </p>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Description|Description@@description" class="">Description</label>
+              <p>
+                {{menu.description | hyphen}}
+              </p>
+            </div>
+            <!--  <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Order|Order@@order" class="">Order</label>
+              <p>
+                {{menu.menuItemOrder | hyphen}}
+              </p>
+            </div> -->
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Icon|Icon@@icon" class="">Icon</label>
+              <p>
+                {{menu.iconName | hyphen}}
+              </p>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Page URL|Page URL@@pageURL" class="">Page URL</label>
+              <p>
+                {{menu.pageUrl | hyphen}}
+              </p>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Status|status@@status" class="">Status</label>
+              <p>
+                {{menu.status | hyphen}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="path finalLine"></div>
+        <div class="row" style="    text-align: right;padding: 23px 0;">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-default text-center backActionButton" (click)="backButton($event)"
+              i18n="Back button|Back@@back"> Back
+            </button>
+            &nbsp;
+            <button i18n="Save button|Save@@save" class="btn btn-primary text-center saveActionButton" type="submit"
+              (click)="saveMenuInfo()">
+              Save</button>
+          </div>
+        </div>
+      </div>
+      <!-- Preview and save Ends here -->
+    </div>
+  </div>
+</div>
+<!-- Menu form ends here -->
+<!-- Loader image -->
+<div *ngIf="showLoaderImage" class="col-lg-12 loaderImageStyle" style="margin-left:0%; margin-top:0%;margin-bottom:0%;"
+  align="center">
+  <img src="/assets/img/dashboard/ProgressLoader.gif" height="auto" width="50%" alt="Loading........">
+</div>
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationWarning)="alertRedirection()" (modelNotificationSuccess)="redirectTo()">
+</app-modal-notification>

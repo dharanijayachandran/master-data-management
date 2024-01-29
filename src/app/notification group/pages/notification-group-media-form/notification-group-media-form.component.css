@@ -1,0 +1,23 @@
+.table tr th:first-child {
+  width: 50px!important;
+}
+
+.table {
+  display: table!important;
+  min-width: 100%;
+  table-layout: fixed!important;
+}
+
+.table th, .table td {
+  display: table-cell!important;
+  width: 200px!important;
+}
+
+/* div.table-responsive {
+  overflow-x: auto!important;
+} */
+
+.path.finalLine+.row {
+  text-align: right;
+  padding: 15px 0 5px!important;
+}

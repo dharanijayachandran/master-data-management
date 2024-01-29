@@ -1,0 +1,208 @@
+<!-- notification Group Form starts here -->
+<div class="row margin_0px rowBox">
+  <div class="col-md-12 padding_0px">
+    <!-- <div class="padding_Form"> -->
+    <form [formGroup]="notificationGroupForm" novalidate (ngSubmit)="previewNotificationGroup()">
+      <div class="padding_Form">
+        <legend
+          i18n="Notification Group Information header|Notification Group Information@@notificationGroupInformation"
+          class="m-b-15">Notification Group Information
+        </legend>
+      </div>
+      <div class="formBodyCustom1" id="">
+        <div class="form-group form-group-custom1">
+          <div class="padding_Form">
+            <div class="m-form__group row">
+              <div class="col-lg-6">
+                <label i18n="Name|Name@@name*" class="">Name<span class="text-danger">*</span></label>
+                <div class="form-group">
+                  <div [ngClass]="{'has-error': ((notificationGroupForm.get('name').touched || notificationGroupForm.get('name').dirty) &&
+                            notificationGroupForm.get('name').errors)}">
+                    <input (keyup)="onKey($event)" type="text" formControlName="name" class="form-control m-input"
+                      i18n-placeholder="@@Name.placeholder" placeholder="Enter Name">
+                    <span class="help-block" *ngIf="((notificationGroupForm.get('name').touched ||
+                              notificationGroupForm.get('name').dirty) &&
+                              notificationGroupForm.get('name').errors)">
+                      <span i18n="Message|Please enter Name@@name.message"
+                        *ngIf="notificationGroupForm.get('name').errors.required">
+                        Please enter Name
+                      </span>
+                      <span i18n="Message|Please enter valid Characters@@name.message1"
+                        *ngIf="notificationGroupForm.get('name').errors.pattern">
+                        Please enter valid Characters
+                      </span>
+                    </span>
+                  </div>
+                  <span class="errorMsg"></span>
+                </div>
+                <div class="m-form__group row">
+                  <div class="col-lg-8">
+                    <label i18n="Time Zone|Time Zone@@timeZone" class="">Time Zone</label>
+                    <div class="form-group">
+                      <div>
+                        <ejs-dropdownlist class="form-control p-0" formControlName="timeZone" id='country'
+                          [dataSource]='data' [fields]='fields' (filtering)='onFiltering($event)'
+                          [filterBarPlaceholder]="filterPlaceholder" [popupHeight]='height' [allowFiltering]='true'
+                          [sortOrder]="sort" [placeholder]='watermark' [locale]='locale'></ejs-dropdownlist>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4"> <label i18n="Status|Status@@status">Status</label>
+                    <div class="form-group">
+                      <mat-radio-group formControlName="status">
+                        <mat-radio-button value="Active" i18n="Radio button|Active@@active" style="margin-right: 20px;">
+                          Active
+                        </mat-radio-button>
+                        <mat-radio-button value="In_Active"
+                          i18n="Radio button|InActive@@inActive">In-Active</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label i18n="Description|Description@@description" class="">Description</label>
+                <div>
+                  <textarea style="height: 125px!important;" rows="4" type="text" formControlName="description"
+                    class="form-control m-input"
+                    i18n-placeholder="Description placeholder|Enter Description@@description.placeholder"
+                    placeholder="Enter Description"></textarea>
+                </div>
+                <span class="errorMsg"></span>
+              </div>
+            </div>
+            <div class="m-form__group row">
+              <div class="col-lg-6">
+                <legend i18n="Notification Media header|Notification Media@@notificationMedia*" class="m-b-15">
+                  Notification Media<span class="text-danger">*
+                  </span></legend>
+                <div class="form-group">
+                  <span formArrayName="notificationMediaList">
+                    <span class="m-r-30" *ngFor="let notificationMedia of notificationMediaList; let i = index"
+                      [formGroupName]="i">
+                      <mat-checkbox class="example-margin" [value]="true"
+                        (change)="isSelected(notificationMedia,$event)" formControlName="isChecked">
+                        {{notificationMedia.name}}
+                      </mat-checkbox>
+                    </span>
+                    <div class="clearfix"></div>
+                    <div i18n="Message|Please select atleast one Notification Media@@notificationMediaSelect.message"
+                      *ngIf='errorMessage' class="help-block">
+                      Please select atleast one Notification Media
+                    </div>
+                    <!--  <div class="invalid-feedback"
+                                            *ngIf="notificationGroupForm.controls['notificationMediaList'].errors && notificationGroupForm.controls['notificationMediaList'].errors.requireOneCheckboxToBeChecked">
+                                            Please select atleast one Notification Media</div> -->
+                  </span>
+                </div>
+              </div>
+              <div class="col-lg-6">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-inverse" style="position: relative">
+            <app-panel-user
+              i18n-name="Notification Group Users header|Notification Group User(s)@@NotificationGroupUsers"
+              name=" Notification Group User(s)">
+
+              <div class="row margin_0px rowBox">
+                <div class="col-md-12 padding_0px">
+                  <div class="padding_Form">
+                    <div class="form-group-custom1">
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <dual-list class="dualBoxList" [sort]="keepSorted" [source]="source" [key]="key"
+                            [display]="display" [filter]="filter" [(destination)]="confirmed" height="265px"
+                            [format]="format" [disabled]="disabled"
+                            (destinationChange)="getUserMovedByNotificationGroup($event)">
+                          </dual-list>
+                          <div class="tab-content">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="path finalLine"></div>
+                      <!-- Save button -->
+                      <div class="row" style="text-align: right;padding: 23px 0;">
+                        <div class="col-md-12">
+                          <a (click)="cancelnotificationGroupForm($event)">
+                            <button type="button" class="btn btn-default text-center cancelActionButton"
+                              i18n="Cancel button|Cancel@@cancel">
+                              Cancel
+                            </button>
+                          </a>
+                          &nbsp;
+                          <button type="button" class="btn btn-secondary text-center resetActionButton"
+                            [disabled]="(!notificationGroupForm.dirty && notificationGroupForm.pristine) && !enableReset"
+                            (click)="resetnotificationGroupForm()" i18n="Reset button|Reset@@reset"> Reset
+                          </button>
+                          &nbsp;
+                          <span i18n-matTooltip="@@Fillthemandatoryfields" matTooltip="Fill the mandatory fields"
+                            [matTooltipDisabled]="notificationGroupForm.valid && (enableSave && userMovedByNotificationGroup)">
+                            <a>
+                              <button class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                [disabled]="!(notificationGroupForm.valid && (enableSave && userMovedByNotificationGroup))"
+                                i18n="Review&Save button|Review&Save@@review&Save">
+                                Review & Save</button>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </app-panel-user>
+          </div>
+
+          <!-- <div class="m-form__group row">
+                            <div class="col-md-12 col-lg-12">
+                                <legend i18n="Notification Group Users header|Notification Group User(s)@@NotificationGroupUsers" class="m-b-15">Notification Group User(s)
+                                </legend>
+                                <dual-list class="dualBoxList" [sort]="keepSorted" [source]="source" [key]="key"
+                                    [display]="display" [filter]="filter" [(destination)]="confirmed" height="265px"
+                                    [format]="format" [disabled]="disabled" (destinationChange)="getUserMovedByNotificationGroup($event)">
+                                </dual-list>
+                                <div class="tab-content">
+                                </div>
+                            </div>
+                        </div> -->
+        </div>
+
+        <!--  <div class="path finalLine"></div>
+                    <div class="row" style="text-align: right;padding: 23px 0;">
+                        <div class="col-md-12">
+                            <a (click)="cancelnotificationGroupForm($event)">
+                                <button type="button"  class="btn btn-default text-center"
+                                    i18n="Cancel button|Cancel@@cancel">
+                                    Cancel
+                                </button>
+                            </a>
+                            &nbsp;
+                            <button type="button" class="btn btn-secondary text-center"
+                                [disabled]="(!notificationGroupForm.dirty && notificationGroupForm.pristine) && !enableReset"
+                                (click)="resetnotificationGroupForm()" i18n="Reset button|Reset@@reset"> Reset
+                            </button>
+                            &nbsp;
+                            <span i18n-matTooltip="@@Fillthemandatoryfields" matTooltip="Fill the mandatory fields"
+                                [matTooltipDisabled]="notificationGroupForm.valid && (enableSave && userMovedByNotificationGroup)">
+                                <a>
+                                    <button class="btn btn-primary text-center" type="submit"
+                                        [disabled]="!(notificationGroupForm.valid && (enableSave && userMovedByNotificationGroup))" i18n="Review&Save button|Review&Save@@review&Save">
+                                        Review & Save</button>
+                                </a>
+                            </span>
+                        </div>
+                    </div> -->
+      </div>
+    </form>
+    <!-- </div> -->
+  </div>
+</div>
+<!-- notification Group Form ends here -->
+
+
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationSuccess)="redirectTo()" (modelNotificationWarning)="alertRedirection()">
+</app-modal-notification>

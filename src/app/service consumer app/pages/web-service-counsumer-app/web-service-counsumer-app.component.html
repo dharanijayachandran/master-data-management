@@ -1,0 +1,41 @@
+<!-- begin page-header -->
+<h1 i18n="Consumer Application Configuration header|Consumer Application Configuration@@consumerApplicationConfiguration" class="page-header">Consumer Application Configuration</h1>
+<div class="header_Underline"></div>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+  <!-- begin col-6 -->
+  <div class="col-lg-12">
+    <!-- begin nav-tabs -->
+    <ngb-tabset type="pills" (tabChange)="beforeChange($event)">
+      <ngb-tab id="consumerApp">
+        <ng-template ngbTabTitle class="hidden">
+          <span i18n="Tab|Consumer Application@@ConsumerApplication" class="d-sm-none">Consumer Application</span>
+          <span i18n="Tab|Consumer Application@@ConsumerApplication" class="d-sm-block d-none">Consumer Application</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div id="serviceConsumerList" class="rowBox p-10 custom-rounded-bottom rowBoxFirstLevelHeight">
+            <app-web-service-counsumer-app-view (tabName)="tabNameMessage()"></app-web-service-counsumer-app-view>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="assignService">
+        <ng-template ngbTabTitle>
+          <span i18n="Tab|Assign Services@@AssignServices" class="d-sm-none">Assign Services</span>
+          <span i18n="Tab|Assign Services@@AssignServices" class="d-sm-block d-none">Assign Services</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div>
+            <app-assign-service-consumer-app></app-assign-service-consumer-app>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+    <!-- end nav-tabs -->
+  </div>
+  <!-- end col-6 -->
+
+</div>
+<!-- end row -->
+

@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 i18n="View Service header|View Service@@viewService" class="page-header">
+      View Service
+    </h1>
+  </div>
+</div>
+<div class="row margin_0px">
+  <div class="col-md-12 padding_0px rowBox">
+    <div class="padding_Form">
+      <!-- form read mode view starts here  -->
+      <div class="formReadMode">
+        <div class="form-group-custom1">
+          <legend i18n="Module Details header|Module Details@@moduleDetails" class="m-b-15">Module Details</legend>
+          <div class="form-row">
+            <div class="form-group col-sm-6 col-md-4">
+              <div>
+                <label i18n="Module Name|Module Name@@moduleName" class="">Module Name</label>
+                <p>
+                  {{masterService.websServiceModuleName | hyphen}}
+                </p>
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Description|Description@@description" class="">Description</label>
+              <p>
+                {{masterService.description | hyphen}}
+              </p>
+            </div>
+            <div class="form-group col-sm-6 col-md-4" style="word-break: break-all;">
+              <div>
+                <label i18n="Display Name|Display Name@@displayName" class="">Display Name</label>
+                <p>
+                  {{masterService.displayName | hyphen}}
+                </p>
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+              <div>
+                <label i18n="Data Operation|Data Operation@@dataOperation" class="">Data Operation</label>
+                <p>
+                  {{masterService.dataOperation | hyphen}}
+                </p>
+              </div>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+              <div>
+                <label i18n="Service Url|Service Url@@serviceUrl" class="">Service Url</label>
+                <p style="word-break: break-all;">
+                  {{masterService.name | hyphen}}
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-6 col-md-4">
+              <label i18n="Status|Status@@status" class="">Status</label>
+              <p>
+                {{masterService.status | hyphen}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="path finalLine"></div>
+        <div class="row" style="    text-align: right;padding: 23px 0;">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-default text-center backActionButton" (click)="backButton()" i18n="Back button|Back@@back"> Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- read mode view ends here  -->
+  </div>
+</div>

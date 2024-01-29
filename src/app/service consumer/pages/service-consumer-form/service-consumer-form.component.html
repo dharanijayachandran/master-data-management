@@ -1,0 +1,205 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1 *ngIf="savePage" class="page-header">
+            <span *ngIf="!view">Add</span><span *ngIf="view">Preview</span> Service Consumer 
+        </h1>
+        <h1 *ngIf="editPage" class="page-header">
+            <span *ngIf="!view">Edit</span><span *ngIf="view">Preview</span> Service Consumer 
+        </h1>
+        <h1 *ngIf="viewIcon" class="page-header">
+            View Service Consumer
+        </h1>
+    </div>
+</div>
+
+<div class="row margin_0px">
+    <div class="col-md-12 padding_0px rowBox">
+        <div class="padding_Form">
+
+            <div *ngIf="form">
+                <form [formGroup]="ServiceConsumerForm" novalidate (ngSubmit)="createServiceConsumer()">
+
+                    <div class="form-group-custom1">
+                        <legend class="m-b-15"
+                            i18n="header|Service Consumer Details@@ServiceConsumerDetails">
+                            Service Consumer Details</legend>
+                        <div class="formBodyCustom1" id="webServiceConsumerDetails">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label i18n="Name|Name@@name*" class="">Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <div [ngClass]="{'has-error': ((ServiceConsumerForm.get('name').touched ||
+                                                ServiceConsumerForm.get('name').dirty) &&
+                                                ServiceConsumerForm.get('name').errors)}">
+                                                    <input type="text" id="ServiceConsumerName" formControlName="name"
+                                                        class="form-control m-input"
+                                                        i18n-placeholder="Name placeholder|Enter Consumer Name@@EnterConsumerName.placeholder"
+                                                        placeholder="Enter Consumer Name">
+                                                    <span class="help-block" *ngIf="((ServiceConsumerForm.get('name').touched ||
+                                              ServiceConsumerForm.get('name').dirty) &&
+                                              ServiceConsumerForm.get('name').errors)">
+                                                        <div i18n="Message|Please enter Consumer Name@@name.message"
+                                                            *ngIf="(ServiceConsumerForm.get('name').errors.required || ServiceConsumerForm.get('name').errors.whitespace)">
+                                                            Please enter Name
+                                                        </div>
+                                                        <div
+                                                            i18n="Message|Please enter valid Characters@@name.message1"
+                                                            *ngIf="ServiceConsumerForm.get('name').errors.pattern ">
+                                                            Please enter a valid Name
+                                                        </div>
+                                                        <div i18n="Message|Code cannot exceed 100 characters@@code.message" 
+                                                        *ngIf="ServiceConsumerForm.controls['name'].hasError('maxlength')">
+                                                            Name cannot exceed 100 characters
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label i18n="Key|Key@@key" class="">Code<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <div [ngClass]="{'has-error': ((ServiceConsumerForm.get('code').touched ||
+                                                ServiceConsumerForm.get('code').dirty) &&
+                                                ServiceConsumerForm.get('code').errors)}">
+                                                    <input type="text" id="ServiceConsumerKey" formControlName="code"
+                                                        class="form-control m-input"
+                                                        i18n-placeholder="Code placeholder|Enter Code@@EnterCode.placeholder"
+                                                        placeholder="Enter Code">
+                                                    <span class="help-block" *ngIf="((ServiceConsumerForm.get('code').touched ||
+                                                            ServiceConsumerForm.get('code').dirty) &&
+                                                            ServiceConsumerForm.get('code').errors)">
+                                                        <div i18n="Message|Please enter Consumer Name@@code.message"
+                                                            *ngIf="(ServiceConsumerForm.get('code').errors.required || ServiceConsumerForm.get('code').errors.whitespace)">
+                                                            Please enter Code
+                                                        </div>
+                                                        <div i18n="Message|Please enter valid Characters@@code.message1"
+                                                            *ngIf="ServiceConsumerForm.get('code').errors.pattern ">
+                                                            Please enter a valid Code
+                                                        </div>
+                                                        <div i18n="Message|Please enter at least 4 characters long@@code.message" 
+                                                        *ngIf="ServiceConsumerForm.controls['code'].hasError('minlength')">
+                                                            Please enter at least 4 characters long
+                                                        </div>
+                                                        <div i18n="Message|Code cannot exceed 20 characters@@code.message" 
+                                                        *ngIf="ServiceConsumerForm.controls['code'].hasError('maxlength')">
+                                                            Code cannot exceed 20 characters
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label i18n="Description|Description@@description" class="">Description</label>
+                                    <div class="form-group">
+                                        <textarea type="text" id="description" formControlName="description"
+                                            class="form-control m-input textAreaHeight"
+                                            i18n-placeholder="Description placeholder|Enter Description@@EnterDescription.placeholder"
+                                            placeholder="Enter Description">
+                                        </textarea>
+                                        <span class="help-block" i18n="Message|Code cannot exceed 500 characters@@code.message" *ngIf="ServiceConsumerForm.controls['description'].hasError('maxlength')">
+                                            Description cannot exceed 500 characters
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="path finalLine"></div>
+                    <div class="row" style="    text-align: right;padding: 23px 0;">
+                        <div class="col-md-12">
+                            <a (click)="cancel()">
+                                <button type="button" id="cancelAssignedServiceConsumerApp"
+                                    class="btn btn-default text-center cancelActionButton"
+                                    i18n="Cancel button|Cancel@@cancel"> Cancel
+                                </button>
+                            </a>
+                            &nbsp;
+                            <button type="button" class="btn btn-secondary text-center resetActionButton"
+                                [disabled]="!ServiceConsumerForm.dirty && ServiceConsumerForm.pristine || !ServiceConsumerForm.dirty && !ServiceConsumerForm.pristine"
+                                (click)="reset()" i18n="Reset button|Reset@@reset"> Reset
+                            </button>
+                            &nbsp;
+                            <span i18n-matTooltip="Tooltip validation|Fill the mandatory fields@@fillTheMandatoryFields"
+                                matTooltip="Fill the mandatory fields" [matTooltipDisabled]="ServiceConsumerForm.valid">
+                                <button i18n="Review&Save button|Review&Save@@review&Save"
+                                    class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                    [disabled]="!ServiceConsumerForm.valid">
+                                    Review & Save
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div *ngIf="view" class="formReadMode">
+                <div class="form-group-custom1">
+                    <legend
+                        i18n="Service Consumer Details|Service Consumer Details@@ServiceConsumerDetails"
+                        class="m-b-15">Service Consumer Details
+                    </legend>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Name|Name@@name" class="">Name</label>
+                                        <p>
+                                            {{serviceConsumer.name?serviceConsumer.name:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Code|Code@@Code" class="">Code</label>
+                                        <p>
+                                            {{serviceConsumer.code?serviceConsumer.code:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Description|Description@@description" class="">Description</label>
+                                        <p>
+                                            {{serviceConsumer.description?serviceConsumer.description:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="path finalLine"></div>
+                <div class="row" style="text-align: right;padding: 23px 0;">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default text-center backActionButton" (click)="back()"
+                            i18n="Back button|Back@@back">
+                            Back
+                        </button>
+                        &nbsp;
+                        <button *ngIf="!viewIcon" i18n="Save button|Save@@save" class="btn btn-primary text-center saveActionButton"
+                            type="submit" (click)="save()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationWarning)="alertRedirection()" (modelNotificationSuccess)="formCancelConfirm()">
+</app-modal-notification>

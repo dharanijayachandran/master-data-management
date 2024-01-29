@@ -1,0 +1,53 @@
+<div class="form-row">
+    <!--  <a (click)="backButton()" class="edit_section">
+      <img src="assets/img/action/edit.png" alt="Edit Asset Template Details"
+      i18n-matTooltip="@@ClicktoEditAssetTemplateDetails" matTooltip="Click to Edit access group Details">
+    </a> -->
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Name|Name@@name" class="">Name</label>
+        <p>
+            {{accessGroup.name | hyphen}}
+        </p>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Description|Description@@description" class="">Description</label>
+        <p>
+            {{accessGroup.description | hyphen}}
+        </p>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Status|Status@@status" class="">Status</label>
+        <p>
+            {{accessGroup.status}}
+        </p>
+    </div>
+   <!--  <div class="form-group col-sm-6 col-md-4"> -->
+        <div class="form-group col-sm-12 col-md-12">
+        <label i18n="Access Group User(s)|Access Group User(s)@@accessGroupusers" class="">Access Group User(s)</label>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th> Email Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let accessGroupUserobj of this.accessGroup.accessGroupUser'>
+                    <ng-container *ngFor='let accessGroupUser of accessGroupUsers'>
+                        <ng-container *ngIf="accessGroupUserobj.userId===accessGroupUser.id">
+                            <td>
+                                {{accessGroupUser.firstName | hyphen}}
+                            </td>
+                            <td>
+                                {{accessGroupUser.emailId | hyphen}}
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>

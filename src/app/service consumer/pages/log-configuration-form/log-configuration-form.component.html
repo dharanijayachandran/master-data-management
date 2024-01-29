@@ -1,0 +1,234 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1 *ngIf="savePage && !view" class="page-header">
+            Add Log Configuration
+        </h1>
+        <h1 *ngIf="savePage && view" class="page-header">
+            Preview Log Configuration
+        </h1>
+        <h1 *ngIf="editPage && !view" class="page-header">
+            Edit Log Configuration
+        </h1>
+        <h1 *ngIf="editPage && view" class="page-header">
+            Preview Log Configuration
+        </h1>
+        <h1 *ngIf="viewIcon" class="page-header">
+            View Log Configuration
+        </h1>
+    </div>
+</div>
+
+<div class="row margin_0px">
+    <div class="col-md-12 padding_0px rowBox">
+        <div class="padding_Form">
+
+            <div *ngIf="form">
+                <form [formGroup]="LogConfigurationForm" novalidate (ngSubmit)="createLogConfiguration()">
+
+                    <div class="form-group-custom1">
+                        <legend class="m-b-15"
+                            i18n="header|Log Configuration Details@@LogConfigurationDetails">
+                            Log Configuration Details</legend>
+                        <div class="formBodyCustom1" id="webServiceConsumerDetails">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Service Consumer
+                                            </label>
+                                            <input type="text" id="ApplicationName" class="form-control m-input"
+                                                [value]="ServiceConsumerElementName"
+                                                i18n-placeholder="Service Consumer|Service Consumer@@ServiceConsumer.placeholder"
+                                                placeholder="Service Consumer" readonly>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Application
+                                            </label>
+                                            <input type="text" id="ApplicationName" class="form-control m-input"
+                                                [value]="serviceConsumerApplicationElementName"
+                                                i18n-placeholder="Application|Application@@Application.placeholder"
+                                                placeholder=" Application" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Log Level <span class="text-danger">*</span>
+                                            </label>
+                                            <ejs-dropdownlist class="form-control" [dataSource]="logLevelDropdown"
+                                                [fields]="fields" placeholder="--select--" formControlName="logLevelId"
+                                                [allowFiltering]='true' [filterBarPlaceholder]="filterPlaceholder"
+                                                [popupHeight]='height' [sortOrder]="sortDropDown">
+                                            </ejs-dropdownlist>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Log Output Destination <span class="text-danger">*</span>
+                                            </label>
+                                            <ejs-dropdownlist class="form-control" [dataSource]="logOutputDestinationDropdown" [fields]="fields"
+                                                placeholder="--select--" formControlName="logOutputDestinationId"
+                                                [allowFiltering]='true' [filterBarPlaceholder]="filterPlaceholder"
+                                                [popupHeight]='height' [sortOrder]="sortDropDown">
+                                            </ejs-dropdownlist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="form-lable"> Log Retention Period(No. of Days) <span
+                                            class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <div [ngClass]="{'has-error': ((LogConfigurationForm.get('logRetentionPeriod').touched ||
+                                                LogConfigurationForm.get('logRetentionPeriod').dirty) &&
+                                                LogConfigurationForm.get('logRetentionPeriod').errors)}">
+                                            <input type="text" id="ServiceConsumerName"
+                                                formControlName="logRetentionPeriod" class="form-control m-input"
+                                                i18n-placeholder="placeholder|Enter Log Retention Period@@LogRetentionPeriod.placeholder"
+                                                placeholder="Enter Log Retention Period">
+                                            <span class="help-block" *ngIf="((LogConfigurationForm.get('logRetentionPeriod').touched ||
+                                                LogConfigurationForm.get('logRetentionPeriod').dirty) &&
+                                                LogConfigurationForm.get('logRetentionPeriod').errors)">
+                                                <div i18n="Message|Please enter positive numbers only@@PleaseEnterPositiveNumbersOnly.message1"
+                                                    *ngIf="LogConfigurationForm.get('logRetentionPeriod').errors.pattern ">
+                                                    Please enter positive numbers only
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+                        </div>
+                    </div>
+
+                    <div class="path finalLine"></div>
+
+                    <div class="row" style=" text-align: right;padding: 23px 0;">
+                        <div class="col-md-12">
+                            <a (click)="cancel()">
+                                <button type="button" id="cancelAssignedServiceConsumerApp"
+                                    class="btn btn-default text-center cancelActionButton"
+                                    i18n="Cancel button|Cancel@@cancel"> Cancel
+                                </button>
+                            </a>
+                            &nbsp;
+                            <button type="button" class="btn btn-secondary text-center resetActionButton"
+                                [disabled]="!LogConfigurationForm.dirty && LogConfigurationForm.pristine || !LogConfigurationForm.dirty && !LogConfigurationForm.pristine"
+                                (click)="reset()" i18n="Reset button|Reset@@reset"> Reset
+                            </button>
+                            &nbsp;
+                            <span i18n-matTooltip="Tooltip validation|Fill the mandatory fields@@fillTheMandatoryFields"
+                                matTooltip="Fill the mandatory fields"
+                                [matTooltipDisabled]="LogConfigurationForm.valid">
+                                <button i18n="Review&Save button|Review&Save@@review&Save"
+                                    class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                    [disabled]="!LogConfigurationForm.valid">
+                                    Review & Save
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div *ngIf="view" class="formReadMode">
+                <div class="form-group-custom1">
+                    <legend i18n="Application Details header|Application Details@@ApplicationDetails" class="m-b-15">
+                        Log Configuration Details
+                    </legend>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="word-wrap">
+                                        <label i18n="Service Consumer|Service Consumer@@Service Consumer" class="">Service Consumer</label>
+                                        <p>
+                                            {{ServiceConsumerElementName | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="word-wrap">
+                                        <label i18n="Application|Application@@Application" class="">Application</label>
+                                        <p>
+                                            {{serviceConsumerApplicationElementName | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="word-wrap">
+                                        <label i18n="Log Level|Log Level@@Log Level" class="">Log Level</label>
+                                        <p>
+                                            {{getLogLevelName(logConfiguration.logLevelId) | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="word-wrap">
+                                        <label i18n="Log Output Destination|Log Output Destination@@Log Output Destination" class="">Log Output Destination</label>
+                                        <p>
+                                            {{getLogOutputDestinationName(logConfiguration.logOutputDestinationId) | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="word-wrap">
+                                        <label i18n="Log Retention Period(No. of Days)|Log Retention Period(No. of Days)@@Log Retention Period(No. of Days)" class="">Log Retention Period(No. of Days)</label>
+                                        <p>
+                                            {{logConfiguration.logRetentionPeriod?logConfiguration.logRetentionPeriod:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="path finalLine"></div>
+                <div class="row" style="    text-align: right;padding: 23px 0;">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default text-center backActionButton" (click)="back()"
+                            i18n="Back button|Back@@back">
+                            Back
+                        </button>
+                        &nbsp;
+                        <button *ngIf="!viewIcon" i18n="Save button|Save@@save"
+                            class="btn btn-primary text-center saveActionButton" type="submit" (click)="save()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Loader image -->
+<div *ngIf="showLoaderImage" class="col-lg-12 loaderImageStyle" style="margin-left:0%; margin-top:0%;margin-bottom:0%;"
+    align="center">
+    <img src="/assets/img/dashboard/ProgressLoader.gif" height="auto" width="50%" alt="Loading........">
+</div>
+
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationWarning)="alertRedirection()"
+    (modelNotificationSuccess)="formCancelConfirm()">
+</app-modal-notification>

@@ -1,0 +1,262 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1 *ngIf="savePage && !view" class="page-header">
+            Add Application
+        </h1>
+        <h1 *ngIf="savePage && view" class="page-header">
+            Preview Application
+        </h1>
+        <h1 *ngIf="editPage && !view" class="page-header">
+            Edit Application
+        </h1>
+        <h1 *ngIf="editPage && view" class="page-header">
+            Preview Application
+        </h1>
+        <h1 *ngIf="viewIcon" class="page-header">
+            View Application
+        </h1>
+    </div>
+</div>
+
+<div class="row margin_0px">
+    <div class="col-md-12 padding_0px rowBox">
+        <div class="padding_Form">
+
+            <div *ngIf="form">
+                <form [formGroup]="ApplicationForm" novalidate (ngSubmit)="createApplication()">
+
+                    <div class="form-group-custom1">
+                        <legend class="m-b-15"
+                            i18n=" Application Details header| Application Details@@ApplicationDetails">
+                            Application Details</legend>
+                        <div class="formBodyCustom1" id="webServiceConsumerDetails">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Service Consumer
+                                            </label>
+                                            <input type="text" id="ApplicationName" formControlName="serviceConsumerId"
+                                                class="form-control m-input"
+                                                i18n-placeholder="Service Consumer|Service Consumer@@ServiceConsumer.placeholder"
+                                                placeholder="Service Consumer" readonly>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="form-lable">
+                                                Application Category <span class="text-danger">*</span>
+                                            </label>
+                                            <ejs-dropdownlist class="form-control" [dataSource]="applicationCategory"
+                                                [fields]="fields" placeholder="--select--"
+                                                formControlName="appCategoryId"
+                                                [allowFiltering]='true' [filterBarPlaceholder]="filterPlaceholder"
+                                                [popupHeight]='height' [sortOrder]="sortDropDown">
+                                            </ejs-dropdownlist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label i18n="Name|Name@@name*" class="">Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <div [ngClass]="{'has-error': ((ApplicationForm.get('name').touched ||
+                                                ApplicationForm.get('name').dirty) &&
+                                                ApplicationForm.get('name').errors)}">
+                                                    <input type="text" id="ApplicationName" formControlName="name"
+                                                        class="form-control m-input"
+                                                        i18n-placeholder="Application Name placeholder|Enter Application Name@@name.placeholder"
+                                                        placeholder="Enter Application Name">
+                                                    <span class="help-block" *ngIf="((ApplicationForm.get('name').touched ||
+                                              ApplicationForm.get('name').dirty) &&
+                                              ApplicationForm.get('name').errors)">
+                                                        <div i18n="Message|Please enter Application Name@@name.message"
+                                                            *ngIf="(ApplicationForm.get('name').errors.required || ApplicationForm.get('name').errors.whitespace)">
+                                                            Please enter Application Name
+                                                        </div>
+                                                        <div
+                                                            i18n="Message|Please enter valid Characters@@name.message1"
+                                                            *ngIf="ApplicationForm.get('name').errors.pattern ">
+                                                            Please enter valid Name
+                                                        </div>
+                                                        <div i18n="Message|Code cannot exceed 100 characters@@code.message" *ngIf="ApplicationForm.controls['name'].hasError('maxlength')">
+                                                            Code cannot exceed 100 characters
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label i18n="Code|Code@@Code*" class="">Code<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <div [ngClass]="{'has-error': ((ApplicationForm.get('code').touched ||
+                                                ApplicationForm.get('code').dirty) &&
+                                                ApplicationForm.get('code').errors)}">
+                                                    <input type="text" id="ApplicationCode" formControlName="code"
+                                                        class="form-control m-input"
+                                                        i18n-placeholder="Application Code placeholder|Enter Code@@code.placeholder"
+                                                        placeholder="Enter Code">
+                                                    <span class="help-block" *ngIf="((ApplicationForm.get('code').touched ||
+                                              ApplicationForm.get('code').dirty) &&
+                                              ApplicationForm.get('code').errors)">
+                                                        <div i18n="Message|Please enter Application Code@@code.message"
+                                                            *ngIf="(ApplicationForm.get('code').errors.required || ApplicationForm.get('code').errors.whitespace)">
+                                                            Please enter Code
+                                                        </div>
+                                                        <div
+                                                            i18n="Message|Please enter valid Characters@@code.message1"
+                                                            *ngIf="ApplicationForm.get('code').errors.pattern ">
+                                                            Please enter a valid Code
+                                                        </div>
+                                                        <div i18n="Message|Please enter at least 4 characters long@@code.message" *ngIf="ApplicationForm.controls['code'].hasError('minlength')">
+                                                            Please enter at least 4 characters long
+                                                        </div>
+                                                        <div i18n="Message|Code cannot exceed 20 characters@@code.message" *ngIf="ApplicationForm.controls['code'].hasError('maxlength')">
+                                                            Code cannot exceed 50 characters
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label i18n="Description|Description@@description" class="">Description</label>
+                                    <div class="form-group">
+                                        <textarea type="text" id="description" formControlName="description"
+                                            class="form-control m-input textAreaHeight"
+                                            i18n-placeholder="Description placeholder|Enter Description@@description.placeholder"
+                                            placeholder="Enter Description">
+                                        </textarea>
+                                        <span class="help-block" i18n="Message|Code cannot exceed 500 characters@@code.message" *ngIf="ApplicationForm.controls['description'].hasError('maxlength')">
+                                            Description cannot exceed 500 characters
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="path finalLine"></div>
+
+                    <div class="row" style="    text-align: right;padding: 23px 0;">
+                        <div class="col-md-12">
+                            <a (click)="cancel()">
+                                <button type="button" id="cancelAssignedServiceConsumerApp"
+                                    class="btn btn-default text-center cancelActionButton"
+                                    i18n="Cancel button|Cancel@@cancel"> Cancel
+                                </button>
+                            </a>
+                            &nbsp;
+                            <button type="button" class="btn btn-secondary text-center resetActionButton"
+                                [disabled]="!ApplicationForm.dirty && ApplicationForm.pristine || !ApplicationForm.dirty && !ApplicationForm.pristine"
+                                (click)="reset()" i18n="Reset button|Reset@@reset"> Reset
+                            </button>
+                            &nbsp;
+                            <span i18n-matTooltip="Tooltip validation|Fill the mandatory fields@@fillTheMandatoryFields"
+                                matTooltip="Fill the mandatory fields" [matTooltipDisabled]="ApplicationForm.valid">
+                                <button i18n="Review&Save button|Review&Save@@review&Save"
+                                    class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                    [disabled]="!ApplicationForm.valid">
+                                    Review & Save
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div *ngIf="view" class="formReadMode">
+                <div class="form-group-custom1">
+                    <legend i18n="header|Application Details@@ApplicationDetails" class="m-b-15">
+                        Application Details
+                    </legend>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Service Consumer|Service Consumer@@Service Consumer" class="">Service Consumer</label>
+                                        <p>
+                                            {{getConsumerElement | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Application Category|Application Category@@Application Category" class="">Application Category</label>
+                                        <p>
+                                            {{getApplicationNameById(applications.appCategoryId) | hyphen}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Name|Name@@name" class="">Name</label>
+                                        <p>
+                                            {{applications.name?applications.name:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Code|Code@@Code" class="">Code</label>
+                                        <p>
+                                            {{applications.code?applications.code:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="word-wrap">
+                                        <label i18n="Description|Description@@description" class="">Description</label>
+                                        <p>
+                                            {{applications.description?applications.description:'-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="path finalLine"></div>
+                <div class="row" style="text-align: right;padding: 23px 0;">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default text-center backActionButton" (click)="back()"
+                            i18n="Back button|Back@@back">
+                            Back
+                        </button>
+                        &nbsp;
+                        <button *ngIf="!viewIcon" i18n="Save button|Save@@save"
+                            class="btn btn-primary text-center saveActionButton" type="submit" (click)="save()">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationWarning)="alertRedirection()" (modelNotificationSuccess)="formCancelConfirm()">
+</app-modal-notification>

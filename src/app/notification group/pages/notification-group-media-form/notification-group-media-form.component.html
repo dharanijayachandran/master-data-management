@@ -1,0 +1,198 @@
+<!-- notification Group Media Form starts here -->
+<div class="row margin_0px rowBox">
+    <div class="col-md-12 padding_0px">
+        <div class="p-10">
+            <form [formGroup]="notificationGroupMediaForm" novalidate (ngSubmit)="previewNotificationGroupMedia()">
+                <legend
+                    i18n="Notification Group Information header|Notification Group Information@@notificationGroupInformation"
+                    class="m-b-15">Notification Group
+                    Information</legend>
+                <div class="container mat-elevation-z8 mb-3">
+                    <app-panel-user class="panel-header"
+                        i18n-name="Anonymous Contacts panel header|List of Anonymous Contacts@@listAnonymousContacts"
+                        *ngIf="!showLoaderImage" name="List of Anonymous Contacts" #panelHeader
+                        (refreshTableList)="refreshTableListFunction()" (eventEmitToPageNaviagte)="addRow()">
+
+                        <!-- Input field for search -->
+                        <input searchfield style="display: none;" id="filter" class="form-control m-input ml-2"
+                            (keyup)="panelHeader.applyFilter($event.target.value, dataSource)"
+                            i18n-placeholder="Search|Search placeholder@@search" matInput placeholder="Search.." />
+
+                        <!-- Search button -->
+                        <a searchButton href="javascript:;"
+                            i18n-matTooltip="Search button|Click to Search@@ClickToSearch" matTooltip="Click to Search"
+                            class="btn btn-xs btn-icon btn-circle btn-default" (click)="panelHeader.searchButton(this.dataSource)">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <!-- Add New button -->
+                        <a addNewButton i18n-matTooltip="AddNew button tooltip|Click to Add New@@addNew"
+                            (click)="addRow()" matTooltip="Click to Add Row"
+                            class="btn btn-xs btn-icon btn-circle btn-warning">
+                            <i class="fa fa-plus"></i>
+                        </a>                       
+                    
+                    <div class="position-relative">
+                        <div class="ps position-relative" appScrollbarDirective *ngIf="dataSource && dataSource.data.length">
+                            <ng-container *ngTemplateOutlet="matTable"></ng-container>
+                          </div>
+                  
+                          <div class="table-responsive" *ngIf="!dataSource || !dataSource.data.length">
+                            <ng-container *ngTemplateOutlet="matTable"></ng-container>
+                          </div>
+                        <h3 i18n="No records found text|No records found@@noRecordsFound"
+                            *ngIf="((dataSource && !dataSource.data.length) || dataSource.filteredData.length==0 ) && !showLoaderImage" class="text-center noRecordsFound">
+                            No records found!
+                        </h3>
+                    </div>
+                    <ng-template #matTable>
+                        <table mat-table [dataSource]="dataSource" class="table table-striped table-bordered"
+                                formArrayName="notificationGroupMediaEntity">
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                <tr mat-row *matRowDef="let element; let i = index; columns: displayedColumns;">
+                                </tr>
+                                <ng-container matColumnDef="id">
+                                    <th i18n="Table id|Sno@@sNo" mat-header-cell *matHeaderCellDef
+                                        style="display: none">S.No.</th>
+                                    <td mat-cell *matCellDef="let element; let i = index;" style="display: none">
+                                        {{ (i+1)}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="contactName">
+                                    <th i18n="Table|Contact Name@@contactName*" mat-header-cell *matHeaderCellDef>
+                                        Contact Name<span class="text-danger">*</span>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                                        <div [ngClass]="{'has-error': ((notificationGroupMediaEntity.controls[i].get('recipientContactName').touched || notificationGroupMediaEntity.controls[i].get('recipientContactName').dirty) &&
+                                    notificationGroupMediaEntity.controls[i].get('recipientContactName').errors)}">
+                                            <input type="text" class="form-control m-input"
+                                                formControlName="recipientContactName"
+                                                placeholder="Enter Contact Name">
+                                            <span class="help-block"
+                                                *ngIf="((notificationGroupMediaEntity.controls[i].get('recipientContactName').touched ||
+                                            notificationGroupMediaEntity.controls[i].get('recipientContactName').dirty) &&
+                                            notificationGroupMediaEntity.controls[i].get('recipientContactName').errors)">
+                                                <span
+                                                    i18n="Message|Please enter Contact Name@@recipientContactName.message"
+                                                    *ngIf="notificationGroupMediaEntity.controls[i].get('recipientContactName').errors.required">
+                                                    Please enter Contact Name
+                                                </span>
+                                                <span
+                                                    i18n="Message|Please enter valid Characters@@recipientContactName.message1"
+                                                    *ngIf="notificationGroupMediaEntity.controls[i].get('recipientContactName').errors.pattern">
+                                                    Please enter valid Characters
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="contactInfo">
+                                    <th i18n="Table|Contact Info@@contactInfo" mat-header-cell *matHeaderCellDef>
+                                        Contact Info<span class="text-danger">*</span>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                                        <div [ngClass]="{'has-error': ((notificationGroupMediaEntity.controls[i].get('recipientContact').touched || notificationGroupMediaEntity.controls[i].get('recipientContact').dirty) &&
+                                    notificationGroupMediaEntity.controls[i].get('recipientContact').errors)}">
+                                            <input type="text" class="form-control m-input"
+                                                formControlName="recipientContact" placeholder="Enter Contact Info">
+                                            <span class="help-block" *ngIf="((notificationGroupMediaEntity.controls[i].get('recipientContact').touched ||
+                                        notificationGroupMediaEntity.controls[i].get('recipientContact').dirty) &&
+                                        notificationGroupMediaEntity.controls[i].get('recipientContact').errors)">
+                                                <span
+                                                    *ngIf="notificationGroupMediaEntity.controls[i].get('recipientContact').errors?.required"
+                                                    class="error"
+                                                    i18n="Message|Please enter Contact Info@@recipientContactInfo.message">
+                                                    Please enter Contact Info
+                                                </span>
+                                                <span *ngIf="emailPattern">
+                                                    <span
+                                                        *ngIf="notificationGroupMediaEntity.controls[i].get('recipientContact').errors?.pattern"
+                                                        i18n="Message|Please enter valid E-mail ID@@recipientContactInfo.message1">
+                                                        Please enter valid E-mail ID
+                                                    </span></span>
+
+                                                <span *ngIf="mobilePattern">
+                                                    <span
+                                                        *ngIf="notificationGroupMediaEntity.controls[i].get('recipientContact').errors?.pattern"
+                                                        i18n="Message|Enter only numbers@@recipientContactInfo.message2">
+                                                        Enter only numbers
+                                                    </span></span>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="status">
+                                    <th i18n="Table|Status@@status" mat-header-cell *matHeaderCellDef>Status</th>
+                                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                                        <mat-radio-group formControlName="status">
+                                            <mat-radio-button value="Active" i18n="Radio button|Active@@active"
+                                                style="margin-right: 20px;">
+                                                Active
+                                            </mat-radio-button>
+                                            <mat-radio-button value="In_Active"
+                                                i18n="Radio button|InActive@@inActive">
+                                                In-Active</mat-radio-button>
+                                        </mat-radio-group>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th i18n="Table|Action@@action" mat-header-cell *matHeaderCellDef> Action </th>
+                                    <td mat-cell *matCellDef="let element;let i = index;">
+                                        <a class="" (click)="deleteAnonymousContact(element,i)">
+                                            <i class="fas fa-md fa-fw m-r-10 fa-trash-alt" alt="delete"
+                                                i18n-matTooltip="Delete button|Click to Delete tooltip@@clickToDelete"
+                                                matTooltip="Click to Delete"></i>
+                                        </a>
+                                    </td>
+                                </ng-container>
+                            </table>
+                    </ng-template>
+                </app-panel-user>
+                </div>
+                <div class="path finalLine"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a (click)="cancelNotificationGroupMediaForm($event)">
+                            <button type="button"  class="btn btn-default text-center cancelActionButton"
+                                i18n="Cancel button|Cancel@@cancel">
+                                Cancel
+                            </button>
+                        </a>
+                        &nbsp;
+                        <button type="button" class="btn btn-secondary text-center resetActionButton"
+                            [disabled]="!notificationGroupMediaForm.dirty && notificationGroupMediaForm.pristine"
+                            (click)="resetNotificationGroupMediaForm()" i18n="Reset button|Reset@@reset"> Reset
+                        </button>
+                        &nbsp;
+                        <span *ngIf="dataSource && !dataSource.data.length" ><a>
+                                <button class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                    [disabled]="!notificationGroupMediaForm.valid"
+                                    i18n="Review&Save button|Review&Save@@review&Save">
+                                    Review & Save</button>
+                            </a>
+                        </span>
+                        <span *ngIf="dataSource && dataSource.data.length"
+                            i18n-matTooltip="Tooltip validation|Fill the mandatory fields@@fillTheMandatoryFields"
+                            matTooltip="Fill the mandatory fields"
+                            [matTooltipDisabled]="notificationGroupMediaForm.valid">
+                            <a>
+                                <button class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                                    [disabled]="!notificationGroupMediaForm.valid"
+                                    i18n="Review&Save button|Review&Save@@review&Save">
+                                    Review & Save</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Loader image -->
+<div *ngIf="showLoaderImage" class="col-lg-12 loaderImageStyle" style="margin-left:0%; margin-top:0%;margin-bottom:0%;"
+    align="center">
+    <img src="/assets/img/dashboard/ProgressLoader.gif" height="auto" width="50%" alt="Loading........">
+</div>
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationDanger)="confirmDelete();" (modelNotificationWarning)="alertRedirection()">
+</app-modal-notification>

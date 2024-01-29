@@ -1,0 +1,94 @@
+<!-- Menu list view starts here -->
+
+<div class="container mat-elevation-z8 panel panel-inverse mb-0" style="position: relative">
+  <app-panel-user i18n-name="Panel header|List of Menus@@listOfMenus" name="List of Menus" #panelHeader
+    (refreshTableList)="refreshTableListFunction()">
+
+
+    <!-- Input field for search -->
+    <input searchfield style="display: none;" id="filter" class="form-control m-input ml-2"
+      (input)="filterChanged($event.target.value)" i18n-placeholder="Search|Search placeholder@@search" matInput
+      placeholder="Search.." />
+
+
+    <!-- Search button -->
+    <a searchButton href="javascript:;" i18n-matTooltip="Search button|Click to Search@@ClickToSearch"
+      matTooltip="Click to Search" class="btn btn-xs btn-icon btn-circle btn-default"
+      (click)="panelHeader.searchButton()">
+      <i class="fa fa-search"></i>
+    </a>
+    <!-- Add New button -->
+    <a addNewButton i18n-matTooltip="AddNew button tooltip|Click to Add New@@addNew"
+      [routerLink]="['../menu-master/masterMenuForm']" (click)="addMenuItems()" matTooltip="Click to Add New"
+      class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-expand">
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="position-relative">
+      <div class="menuItem ps position-relative" [ngClass]="{'padding_Form':!noRecordBlock}"
+        [ngStyle]="!noRecordBlock ? {'height': 'calc(100vh - 150px)', 'padding': '20px 40px'} : {}"
+        appScrollbarDirective style="max-height: initial;" *ngIf="dataSource && dataSource.data.length">
+        <table class="table border-0">
+          <tbody>
+            <tr>
+              <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                <!-- This is the tree node template for leaf nodes -->
+                <mat-tree-node *matTreeNodeDef="let node" [hidden]="!node.visible" matTreeNodeToggle>
+                  <li class="mat-tree-node">
+                    <!-- use a disabled button to provide padding for tree leaf -->
+                    <button disabled></button>
+                    <button (click)="UpdateMenu(node)"
+                      [ngClass]="{'inactive':node.status == 'In_Active'}">{{node.name}}</button>
+                    <span class="spacer"></span>
+                    <button mat-mdc-icon-button i18n-matTooltip="Add Sub Menu tooltip|Add Sub Menu@@addSubMenu"
+                      *ngIf="!checkPageUrlLength(node)" matTooltip="Add Sub Menu" (click)="addChildMenuItems(node)"
+                      class="btn btn-primary pull-right">
+                      <i class="fas fa-md fa-fw fa-plus plus_menu_position" alt="plus"></i>
+                    </button>
+                  </li>
+
+                </mat-tree-node>
+                <!-- This is the tree node template for expandable nodes -->
+                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" [hidden]="!node.visible">
+                  <li>
+                    <div class="mat-tree-node">
+                      <button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <button (click)="UpdateMenu(node)"
+                        [ngClass]="{'inactive':node.status == 'In_Active'}">{{node.name}}</button> &nbsp;&nbsp;
+                      <span class="spacer"></span>
+                      <button style="float: right;" i18n-matTooltip="Add Sub Menu tooltip|Add Sub Menu@@addSubMenu"
+                        matTooltip="Add Sub Menu" mat-mdc-icon-button (click)="addChildMenuItems(node)"
+                        class="btn btn-primary pull-right">
+                        <i class="fas fa-md fa-fw fa-plus plus_menu_position" alt="plus"></i>
+                      </button>
+                    </div>
+                    <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                      <ng-container matTreeNodeOutlet></ng-container>
+                    </ul>
+                  </li>
+                </mat-nested-tree-node>
+              </mat-tree>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Loader image -->
+      <div *ngIf="showLoaderImage" class="col-lg-12" style="margin-left:0%; margin-top:0%;margin-bottom:0%;"
+        align="center">
+        <img src="/assets/img/dashboard/ProgressLoader.gif" height="auto" width="50%" alt="Loading........">
+      </div>
+      <h3 i18n="No records found text|No records found@@noRecordsFound" *ngIf="noRecordBlock"
+        class="text-center noRecordsFound">
+        No records found!
+      </h3>
+    </div>
+  </app-panel-user>
+
+
+</div>
+<!-- Menu list view ends here -->
+
+<app-modal-notification></app-modal-notification>

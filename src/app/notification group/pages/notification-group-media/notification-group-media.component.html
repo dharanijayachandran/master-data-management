@@ -1,0 +1,40 @@
+<div class="row margin_0px rowBox rowBoxFirstLevelHeight p-10">
+    <!-- end page-header -->
+    <div class="col-md-12 p-0">
+        <div class="row">
+            <div class="col-lg-4">
+                <form [formGroup]="notificationGroupMediaTabForm">
+                    <div class="ml-3 mb-3">
+                        <label i18n="Notification Group header|Notification Group@@notificationGroup" class="">Notification Group</label>
+                        <div>
+                            <input type="text" formControlName="notificationGroupName" class="form-control m-input"
+                                readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- begin row -->
+        <ngb-tabset type="pills">
+            <ngb-tab *ngFor="let notificationMedia of notificationMediaList; let i = index;">
+                <ng-template ngbTabTitle>
+                    <span class="d-sm-block" (click)="onChange(notificationMedia)">{{notificationMedia.name}}</span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <app-notification-group-media-form *ngIf="displayPage == 'notification-group-media-form'"
+                        (navigateTemplate)="gettingDisplayPage($event)"
+                        (navigateTwoLevelUpDisplayPage)="navigateTwoLevelUpGettingDisplayPage($event)">
+                    </app-notification-group-media-form>
+                    <app-notification-group-media-preview *ngIf="displayPage == 'notification-group-media-preview'"
+                        (navigateTemplate)="gettingDisplayPage($event)"
+                        (navigateTwoLevelUpDisplayPage)="navigateTwoLevelUpGettingDisplayPage($event)">
+                    </app-notification-group-media-preview>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+
+    </div>
+</div>

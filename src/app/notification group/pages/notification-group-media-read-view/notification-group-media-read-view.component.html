@@ -1,0 +1,52 @@
+<div class="form-row mb-3">
+    <div class="row" style="width: 100%;" *ngIf="notificationGroupMedia.notificationGroupMediaEntity.length">
+        <div class="col-sm-12 col-md-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Contact Name</th>
+                        <th>Contact Info</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let notificationGroupMediaobj of notificationGroupMedia.notificationGroupMediaEntity">
+                        <ng-container *ngIf="notificationGroupMediaobj.status!='Deleted'">
+                            <td>
+                                {{notificationGroupMediaobj.recipientContactName | hyphen}}
+                            </td>
+                            <td>
+                                {{notificationGroupMediaobj.recipientContact | hyphen}}
+                            </td>
+                            <td>
+                                {{notificationGroupMediaobj.status | hyphen}}
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--  <ng-container *ngIf="notificationGroupMediaobj.status!='Deleted'">
+            <div class="form-group col-sm-6 col-md-4">
+                <label i18n="Contact Name|Contact Name@@contactName" class="">Contact Name</label>
+                <p>
+                    {{notificationGroupMediaobj.recipientContactName | hyphen}}
+                </p>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+                <label i18n="Contact Info|Contact Info@@contactInfo" class="">Contact Info</label>
+                <p>
+                    {{notificationGroupMediaobj.recipientContact | hyphen}}
+                </p>
+            </div>
+            <div class="form-group col-sm-6 col-md-4">
+                <label i18n="Status|Status@@status" class="">Status</label>
+                <p>
+                    {{notificationGroupMediaobj.status | hyphen}}
+                </p>
+            </div>
+        </ng-container> -->
+    </div>
+</div>

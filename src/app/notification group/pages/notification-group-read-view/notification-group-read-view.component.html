@@ -1,0 +1,74 @@
+<div class="form-row">
+    <!-- <a (click)="backButton()" class="edit_section">
+      <img src="assets/img/action/edit.png" alt="Edit Asset Template Details"
+      i18n-matTooltip="@@ClicktoEditAssetTemplateDetails" matTooltip="Click to Edit Asset Template Details">
+    </a> -->
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Name|Name@@name" class="">Name</label>
+        <p>
+            {{notificationGroup.name | hyphen}}
+        </p>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Description|Description@@description" class="">Description</label>
+        <p>
+            {{notificationGroup.description | hyphen}}
+        </p>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Notification Group Media|Notification Group Media@@notificationGroupMedia" class="">Notification Group Media</label>
+        <p *ngFor='let notificationMedia of notificationMediaListNameObj'>
+            {{notificationMedia | hyphen}}
+        </p>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Status|Status@@status" class="">Status</label>
+        <p>
+            {{notificationGroup.status}}
+        </p>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Status|Status@@status" class="">TimeZone</label>
+        <p>
+            {{notificationGroup.timeZone | hyphen}}
+        </p>
+    </div>
+   
+    <div class="form-group col-sm-12 col-md-12">
+        <label i18n="Notification Group Users|Notification Group Users@@notificationGroupUsers" class="">Notification Group User(s)</label>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th> Email Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let notificationGroupUserobj of notificationGroup.notificationGroupUser'>
+                    <ng-container *ngFor='let notificationGroupUser of NotificationGroupusersList'>
+                        <ng-container *ngIf='notificationGroupUser.id===notificationGroupUserobj.recipientUserId'>
+                            <td>
+                                {{notificationGroupUser.firstName | hyphen}}
+                            </td>
+                            <td>
+                                {{notificationGroupUser.emailId | hyphen}}
+                            </td>
+                        </ng-container>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <!-- <div class="form-group col-sm-6 col-md-4">
+        <label i18n="Notification Group Users|Notification Group Users@@notificationGroupUsers" class="">Notification Group User(s)</label>
+        <p *ngFor='let notificationGroupUser of NotificationGroupusersList'>
+            <span *ngFor='let notificationGroupUserobj of notificationGroup.notificationGroupUser'>
+            <span *ngIf='notificationGroupUser.id===notificationGroupUserobj.recipientUserId'>
+                {{notificationGroupUser.firstName | hyphen}}
+            </span>
+            </span>
+        </p>
+    </div> -->
+</div>

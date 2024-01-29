@@ -1,0 +1,241 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="page-header">
+      Asset Standard Tag
+    </h1>
+  </div>
+</div>
+
+<div class="row margin_0px rowBox">
+  <div class="col-md-12 padding_0px">
+    <div class="padding_Form">
+
+      <!-- Table -->
+      <div *ngIf="displayPage == 'assetStandardTagsPage'">
+        <form [formGroup]="assetStandardTagsForm">
+
+          <div class="container mat-elevation-z8 mb-3">
+            <app-panel-user name="List of Asset Standard Tags" #panelHeader>
+
+              <!-- Input field for search -->
+              <input searchfield style="display: none;" id="filter" class="form-control m-input ml-2"
+                (keyup)="panelHeader.applyFilter($event.target.value, dataSource)" matInput placeholder="Search.." />
+
+              <!-- Search button -->
+              <a searchButton href="javascript:;" matTooltip="Click to Search"
+                class="btn btn-xs btn-icon btn-circle btn-default" (click)="panelHeader.searchButton(this.dataSource)">
+                <i class="fa fa-search"></i>
+              </a>
+
+              <!-- Add New button -->
+              <a addNewButton (click)="addRow()" matTooltip="Click to Add New"
+                class="btn btn-xs btn-icon btn-circle btn-warning">
+                <i class="fa fa-plus"></i>
+              </a>
+
+              <div class="position-relative">
+                <div class="ps position-relative" 
+                [ngClass]="{'firstLeveltabTable':this.dataSource.filteredData.length!=0}" appScrollbarDirective
+                  *ngIf="dataSource && dataSource.data.length">
+                  <ng-container *ngTemplateOutlet="matTable"></ng-container>
+                </div>
+
+                <div class="table-responsive" *ngIf="!dataSource || !dataSource.data.length">
+                  <ng-container *ngTemplateOutlet="matTable"></ng-container>
+                </div>
+
+                <h3
+                  *ngIf="((dataSource && !dataSource.data.length) || dataSource.filteredData.length==0 ) && !showLoaderImage"
+                  class="text-center noRecordsFound">
+                  No records found!
+                </h3>
+              </div>
+
+              <app-mat-table-paginator [dataSource]="this.dataSource" #myPaginatorChildComponent
+                (paginator)="matTablePaginator($event)" (scrollBarDirective)="onPaginateViewScrollToTop()">
+              </app-mat-table-paginator>
+
+              <ng-template #matTable>
+                <table mat-table [dataSource]="dataSource" class="table table-striped table-bordered"
+                  formArrayName="assetStandardEntity">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                  <tr mat-row *matRowDef="let element; let i = index; columns: displayedColumns;"></tr>
+
+                  <ng-container matColumnDef="sno">
+                    <th mat-header-cell *matHeaderCellDef>S.No.</th>
+                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                      {{ (i+1)}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name<span class="text-danger">*</span></th>
+                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                      <div>
+                        <input type="text" class="form-control m-input" placeholder="Enter Name" formControlName="name"
+                          #nameId (input)="inputName($event)" maxlength="100">
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                      <div>
+                        <textarea cols="40" class="form-control" #descriptionId formControlName="description"
+                        maxlength="500" (input)="inputDescription()">
+                        </textarea>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef>Code<span class="text-danger">*</span></th>
+                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                      <div>
+                        <input type="text" class="form-control m-input" placeholder="Enter Code" #codeId
+                          formControlName="code" (input)="inputCode($event)" maxlength="50">
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="standardTagId">
+                    <th mat-header-cell *matHeaderCellDef>
+                      Asset Standard Tag
+                    </th>
+                    <td mat-cell *matCellDef="let element;let i = index; " [formGroupName]="i">
+                      <div>
+                        <ejs-dropdownlist [dataSource]="assetStandardTagDropdown" [fields]="dataField"
+                          placeholder="Select a Asset tag" class="form-control" #ASTId formControlName="standardTagId"
+                          [allowFiltering]='true' [filterBarPlaceholder]="filterPlaceholder" [popupHeight]='height'
+                          [sortOrder]="sortDropDown" (change)='assetStandardTagOnChange($event)'>
+                        </ejs-dropdownlist>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef style="width: 2rem;"> Action </th>
+                    <td mat-cell *matCellDef="let element; let i = index;">
+                      <a (click)="deleteAssetTag(element.id,i)">
+                        <i class="fas fa-md fa-fw m-r-10 fa-trash-alt" alt="delete" matTooltip="Click to Delete">
+                        </i>
+                      </a>
+                    </td>
+                  </ng-container>
+
+                </table>
+              </ng-template>
+
+            </app-panel-user>
+          </div>
+
+          <div class="path finalLine"></div>
+          <div class="row">
+            <div class="col-md-12">
+              <a>
+                <button type="button" class="btn btn-default text-center cancelActionButton" (click)="cancel()">
+                  Cancel
+                </button>
+              </a>
+              &nbsp;
+              <button type="button" class="btn btn-secondary text-center resetActionButton" (click)="reset()">
+                Reset
+              </button>
+              &nbsp;
+              <span>
+                <a>
+                  <button class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                    (click)="reviewAndSave()" (mousemove)="reviewAndSaveDisable()" [disabled]="reviewAndSaveDisabled">
+                    Review & Save
+                  </button>
+                  <div *ngIf="nameAndCodeValidation" class="help-block text-danger">
+                    <span>Enter both name and code field</span>
+                  </div>
+                  <div *ngIf="validCodeErrorMessage" class="help-block text-danger">
+                    Please enter a valid code
+                  </div>
+                  <div *ngIf="validNameErrorMessage" class="help-block text-danger">
+                    Please enter a valid name
+                  </div>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- review and save -->
+      <div *ngIf="displayPage == 'saveTags'">
+        <div class="">
+
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Asset Standard Tag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let values of iterateFormValues">
+                <ng-container>
+                  <td>
+                    {{values.name | hyphen}}
+                  </td>
+                  <td>
+                    {{values.description | hyphen}}
+                  </td>
+                  <td>
+                    {{values.code | hyphen}}
+                  </td>
+                  <td>
+                    {{ getAssetStandardTagName(values.standardTagId) | hyphen}}
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+
+          <app-mat-table-paginator [dataSource]="this.dataSource" #myPaginatorChildComponent
+            (paginator)="matTablePaginator($event)" (scrollBarDirective)="onPaginateViewScrollToTop()">
+          </app-mat-table-paginator>
+
+          <div class="path finalLine"></div>
+          <div class="row">
+            <div class="col-md-12">
+              <a>
+                <button type="button" class="btn btn-default text-center cancelActionButton" (click)="back()">
+                  Back
+                </button>
+              </a>
+              &nbsp;
+              <!-- <span matTooltip="Fill the mandatory fields"> -->
+              <a>
+                <button class="btn btn-primary text-center reviewAndSaveActionButton" type="submit"
+                  (click)="saveEntity()">
+                  Save
+                </button>
+              </a>
+              <!-- </span> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+<!-- </div> -->
+
+<!-- Loader image -->
+<div *ngIf="showLoaderImage" class="col-lg-12 loaderImageStyle" style="margin-left:0%; margin-top:0%;margin-bottom:0%;"
+  align="center">
+  <img src="/assets/img/dashboard/ProgressLoader.gif" height="auto" width="50%" alt="Loading........">
+</div>
+
+<!-- Global modal notification component selector for cancel and final save form-->
+<app-modal-notification (modelNotificationDanger)="confirmDelete();" (modelNotificationWarning)="alertRedirection()">
+</app-modal-notification>
